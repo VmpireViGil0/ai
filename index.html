@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>I'm Sorry</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80%; /* Adjust as needed for your design */
+            max-width: 600px; /* Example: Maximum width for larger screens */
+            margin: auto; /* Center align on all devices */
+        }
+
+        h1 {
+            color: #e63946;
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        p {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .bubble {
+            width: 120px; /* 3 times bigger */
+            height: 120px; /* 3 times bigger */
+            background: url('float.png') no-repeat center center;
+            background-size: contain;
+            position: absolute;
+            animation: floatUp 4s ease-in forwards;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-600px);
+                opacity: 0;
+            }
+        }
+
+        /* Styling for the messages */
+        .bold {
+            font-weight: bold;
+            color: #e63946; /* Red color */
+            overflow: hidden; /* Hide overflow to prevent text shift */
+            white-space: nowrap; /* Ensure text is not wrapped */
+            display: inline-block; /* Ensure animation works */
+        }
+
+        /* Animation for text change */
+        @keyframes textDisappear {
+            from {
+                width: 100%; /* Start with full width */
+            }
+            to {
+                width: 0; /* End with no width */
+            }
+        }
+
+        @keyframes textAppear {
+            from {
+                width: 0; /* Start with no width */
+            }
+            to {
+                width: 100%; /* End with full width */
+            }
+        }
+
+        .text-change {
+            animation: textDisappear 0.5s steps(40, end) forwards, /* Delete animation */
+                       textAppear 0.5s steps(40, end) 0.5s forwards; /* Appear animation delayed */
+        }
+
+        /* Styling for the back image */
+        .back-image {
+            width: 4.5em; /* Three times bigger than the original */
+            height: 4.5em; /* Three times bigger than the original */
+            margin-top: 20px; /* Optional: Add some space between text and image */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>I am sorry. I'll never do it again.</h1>
+        <p id="message"><span class="bold">Click anywhere to forgive me</span></p>
+        <img src="back.png" alt="Back Image" class="back-image">
+    </div>
+
+    <script>
+        let lastCreatedTime = 0;
+
+        function createBubble(x, y) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.style.left = `${x - 60}px`; /* Adjusted position for bigger size */
+            bubble.style.top = `${y - 60}px`; /* Adjusted position for bigger size */
+            document.body.appendChild(bubble);
+
+            setTimeout(() => {
+                bubble.remove();
+            }, 4000);
+        }
+
+        function handleEvent(event) {
+            let x, y;
+            if (event.type.startsWith('touch')) {
+                const touch = event.touches[0];
+                x = touch.clientX;
+                y = touch.clientY;
+            } else {
+                x = event.clientX;
+                y = event.clientY;
+            }
+            createBubble(x, y);
+
+            // Change the message text with animation
+            const messageElement = document.getElementById('message');
+            if (messageElement) {
+                messageElement.innerHTML = "<span class='bold text-change'>Thanks. I will protect your privacy and earn it all back.</span>";
+                messageElement.removeAttribute('id'); // Remove id to prevent further changes
+            }
+        }
+
+        document.addEventListener('click', handleEvent);
+        document.addEventListener('touchstart', handleEvent);
+
+        document.addEventListener('mousemove', function(event) {
+            const now = Date.now();
+            if (event.buttons === 1 && now - lastCreatedTime > 100) { // 100ms debounce
+                handleEvent(event);
+                lastCreatedTime = now;
+            }
+        });
+
+        document.addEventListener('touchmove', function(event) {
+            const now = Date.now();
+            if (now - lastCreatedTime > 100) { // 100ms debounce
+                handleEvent(event);
+                lastCreatedTime = now;
+            }
+        });
+    </script>
+</body>
+</html>
