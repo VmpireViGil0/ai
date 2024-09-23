@@ -49,6 +49,12 @@ if (sectionElement) {
   sectionElement.outerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172470/capsule_616x353.jpg">`;
 }
 
+// Remove the "Search Results" text
+const searchResultsHeading = document.querySelector('h1');
+if (searchResultsHeading) {
+  searchResultsHeading.textContent = ''; // Clear the text content
+}
+
 // Function to create a petal
 function createPetal() {
   const petal = document.createElement('div');
