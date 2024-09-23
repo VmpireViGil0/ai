@@ -47,6 +47,7 @@ style.textContent = `
     z-index: 2; /* In front of everything */
     width: 100px; /* Adjust size as needed */
     height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure the image is displayed */
   }
 `;
 
@@ -78,7 +79,7 @@ setInterval(createPetal, 300);
 // Function to inject the image
 function injectImage() {
   const img = document.createElement('img');
-  img.src = 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172470/capsule_616x353.jpg';
+  img.src = 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172470/capsule_616x353.jpg'; // Ensure this URL is correct and accessible
   img.className = 'injected-image';
   document.body.appendChild(img);
 }
