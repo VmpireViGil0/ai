@@ -81,7 +81,7 @@ document.querySelectorAll('*').forEach(function(element) {
       if (node.nodeType === Node.TEXT_NODE) {
         // Replace specific words
         const updatedText = node.textContent
-          .replace(/Search Results/g, "")
+          .replace(/Search Results/g, "Happy Birthday Ai")
           .replace(/3 results were found for the search for/g, "");
 
         // Update the text content without affecting HTML tags
