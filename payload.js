@@ -4,6 +4,7 @@ style.textContent = `
   body {
     position: relative;
     overflow: hidden; /* Prevents scrollbars from appearing */
+    background-color: black; /* Ensures a black background */
   }
 
   /* Black transparent background */
@@ -14,16 +15,16 @@ style.textContent = `
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-    z-index: 0; /* Behind all other content */
+    background: rgba(0, 0, 0, 0.8); /* Slightly darker for better coverage */
+    z-index: -1; /* Behind all other content */
   }
 
   @keyframes fall {
     0% {
-      transform: translateY(-100%);
+      transform: translateY(0); /* Start from the top */
     }
     100% {
-      transform: translateY(100vh);
+      transform: translateY(100vh); /* Fall to the bottom */
     }
   }
 
