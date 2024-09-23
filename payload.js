@@ -20,10 +20,10 @@ style.textContent = `
 
   @keyframes fall {
     0% {
-      transform: translateY(-100%);
+      transform: translateY(-10%); /* Start just above the viewport */
     }
     100% {
-      transform: translateY(100vh);
+      transform: translateY(100vh); /* Fall to the bottom of the viewport */
     }
   }
 
@@ -37,6 +37,16 @@ style.textContent = `
     animation: fall linear infinite;
     pointer-events: none; /* So they don't interfere with other elements */
     z-index: 1; /* In front of the background */
+  }
+
+  /* Injected image style */
+  .injected-image {
+    position: fixed;
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    z-index: 2; /* In front of everything */
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
   }
 `;
 
@@ -64,3 +74,14 @@ function createPetal() {
 
 // Generate petals every 300ms
 setInterval(createPetal, 300);
+
+// Function to inject the image
+function injectImage() {
+  const img = document.createElement('img');
+  img.src = 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172470/capsule_616x353.jpg';
+  img.className = 'injected-image';
+  document.body.appendChild(img);
+}
+
+// Call the function to inject the image
+injectImage();
