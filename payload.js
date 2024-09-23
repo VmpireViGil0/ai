@@ -15,15 +15,15 @@ style.textContent = `
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-    z-index: -1; /* Behind all other content */
+    z-index: 0; /* Behind all other content */
   }
 
   @keyframes fall {
     0% {
-      transform: translateY(0); /* Start from the top */
+      transform: translateY(-100%);
     }
     100% {
-      transform: translateY(100vh); /* Fall to the bottom */
+      transform: translateY(100vh);
     }
   }
 
