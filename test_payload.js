@@ -1,15 +1,20 @@
-// Change all anchor links to point to YouTube
-document.querySelectorAll('a').forEach(function(link) {
-  link.href = 'https://youtube.com';
-});
-
-// Replace specific text in elements while preserving their design
-var elements = document.body.querySelectorAll("*");
-elements.forEach(function(element) {
-  if (element.textContent.includes("Search Results") || 
-      element.textContent.includes("3 results were found for the search for")) {
-    element.textContent = element.textContent
-      .replace("Search Results", "")
-      .replace("3 results were found for the search for", "");
+document.querySelectorAll('*').forEach(function(element) {
+  // Check if the element has text content
+  if (element.childNodes.length) {
+    element.childNodes.forEach(function(node) {
+      // Check if the node is a text node
+      if (node.nodeType === Node.TEXT_NODE) {
+        // Replace specific words
+        const updatedText = node.textContent
+          .replace(/Search Results/g, "")
+          .replace(/3 results were found for the search for/g, "");
+        
+        // Update the text content without affecting HTML tags
+        if (updatedText !== node.textContent) {
+          const newNode = document.createTextNode(updatedText);
+          element.replaceChild(newNode, node);
+        }
+      }
+    });
   }
 });
