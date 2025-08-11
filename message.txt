@@ -1,0 +1,119 @@
+import socket
+import subprocess
+import threading 
+from scapy.all import ARP, Ether, srp
+live_host = []
+allopen_ports = []
+open_ports = []
+string=""
+scan_type=""
+
+def ping_sweep(ip):
+	result=subprocess.run(['ping','-n','1','-w','200',ip],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+	output=result.stdout.decode('utf-8')
+	if "TTL=" in output:
+		print("Host " + ip + " is up")
+		live_host.append(ip)
+	return live_host	
+
+def sacn_ports(ip, port):
+	global string
+	s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.settimeout(1)
+	result= s.connect_ex((ip, port))
+	if result == 0:	
+		output="port " + str(port) + " is open on " + str(ip)
+		print(output)
+		string=string+output+"\n"
+
+		open_ports.append(port)
+	s.close()
+	
+
+def grab_banner(ip, port):
+	try:
+		s=socket.socket()
+		s.settimeout(1)
+		s.connect((ip, port))
+		banner = s.recv(1024).decode().strip()
+		print(" Banner:" + banner)
+		s.close()
+	except:
+		print("no Banner")
+
+def icmp_scan(subnet):
+	for i in range(1 , 255):
+		ip = subnet+"."+str(i)
+		s = threading.Thread(target=ping_sweep, args=(ip,))
+		s.start()
+def sacning_ports():
+	for ip in live_host:
+		for port in range(1,1025):
+			f = threading.Thread(target=sacn_ports, args=(ip, port))
+			f.start()
+		allopen_ports.append(open_ports)
+
+def creat_socket():
+	index = 0
+	for ip in live_host:
+		for port in allopen_ports[index]:
+			t = threading.Thread(target=grab_banner, args=(ip,port))
+			t.start()
+		index=index+1
+	index=0
+	#with open("open_ports.txt","a")as t:
+		#for entry in allopen_ports:
+			#t.write(str(live_host[index]))
+			#for port in entry:
+				#t.write(str(port)+" ")
+			#index=index+1	
+				
+			
+def arp_scan(ip_range):
+	global string
+	arp_request = ARP(pdst = ip_range)
+	broadcast = Ether(dst = "ff:ff:ff:ff:ff:ff") 
+	arp_request_broadcast = broadcast/arp_request
+	answerd_list = srp(arp_request_broadcast, timeout=3, verbose=False)[0]
+	print(answerd_list)
+	devices_list = []
+	for element in answerd_list:
+		device_info = {"ip": element[1].psrc, "mac":element[1].hwsrc}
+		string=string+str(device_info)+"\n"   
+		devices_list.append(device_info)
+		return devices_list
+
+def open_file():
+	global string
+	print(string)
+	with open("arpscan.txt","a")as f:
+		f.write(string)
+	f.close()
+
+def manual_scanner():
+	subnet = input("enter subnet: ")
+	icmp_scan(subnet)
+	sacning_ports()
+	creat_socket()
+	print("the scan is complete")
+	
+	
+
+#def file_for_result():
+	#sacning_ports()
+	#with open("open_ports.txt","a")as t:
+		#for entry in allopen_ports:
+			#f.write(str(entry)+"\n")
+
+
+
+if __name__ == "__main__":
+	print("there are two types of scanner arp and manual which one you prefer?")
+	type_of_scan = input(">> ")
+	if type_of_scan == "arp":
+		ip_range = input("enter ip range: ")
+		active_device = arp_scan(ip_range)
+		print(active_device)
+	elif type_of_scan == "manual":
+		manual_scanner()
+	open_file()
